@@ -20,6 +20,31 @@ const {
 
 
 class TCAccept extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isChecked: false
+    }
+
+    this.handleCheckboxChanged = this.handleCheckboxChanged.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleCheckboxChanged(event) {
+    this.setState({
+      isChecked: event.target.checked
+    });
+    
+  }
+
+  handleSubmit(event) {
+    
+    if (!this.state.isChecked) {
+      event.preventDefault();
+      return false;
+    }
+  }
 
   render() {
     return (
@@ -34,11 +59,15 @@ class TCAccept extends React.Component {
             <div className="article">
               <TermsPreviewWidget content={termsText} />
             </div>
-            <form action={formAction} method="post">
+            <form action={formAction} method="post" onSubmit={this.handleSubmit}>
               <input type="hidden" name="csrfmiddlewaretoken" value={csrfToken} />
               <div dangerouslySetInnerHTML={{__html: formTerms}}></div>
               <div dangerouslySetInnerHTML={{__html: formReturnTo}}></div>
-              <Button type="submit">{gettext('Accept')}</Button>
+              <div>
+                <input type="checkbox" name="agreeTC" checked={this.state.isChecked} onChange={this.handleCheckboxChanged}/>
+                <label htmlFor="agreeTC" className='checkbox-label'>I agree</label>
+              </div>
+              <Button type="submit" disabled={!this.state.isChecked} >{gettext('Accept')}</Button>
               <a href={logoutURL} className="btn btn-secondary ml-2">{gettext('Cancel')}</a>
             </form>
           </div>

@@ -64,3 +64,6 @@ frontend/package-lock.json
 frontend/.eslintcache
 
 /.idea
+
+# back up
+*.zip

@@ -11165,5 +11165,10 @@ Icon input
     border-color: #f19645;
     box-shadow: 0 0 0 2px rgba(241, 150, 69, 0.25); }
 
-
+/* custom css */
+.checkbox-label {
+    vertical-align: middle;
+    padding: 0.5rem;
+    margin-bottom: 0.2rem;
+}
 /*# sourceMappingURL=seafile-ui.map*/

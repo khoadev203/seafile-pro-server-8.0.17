@@ -80,7 +80,7 @@ STATICFILES_DIRS = (
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
     '%s/static' % PROJECT_ROOT,
-    '%s/frontend/build' % PROJECT_ROOT,
+    '%s/frontend/build' % PROJECT_ROOT
 )
 
 WEBPACK_LOADER = {
@@ -420,7 +420,7 @@ ENABLE_USER_CREATE_ORG_REPO = True
 
 DISABLE_SYNC_WITH_ANY_FOLDER = False
 
-ENABLE_TERMS_AND_CONDITIONS = False
+ENABLE_TERMS_AND_CONDITIONS = True
 
 # Enable or disable sharing to all groups
 ENABLE_SHARE_TO_ALL_GROUPS = False
