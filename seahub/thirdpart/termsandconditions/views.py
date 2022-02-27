@@ -2,7 +2,7 @@
 
 # pylint: disable=E1120,R0901,R0904
 
-# from django.contrib.auth.models import User
+from django.contrib.auth.models import User
 from .forms import UserTermsAndConditionsModelForm, EmailTermsForm
 from .models import TermsAndConditions, UserTermsAndConditions, DEFAULT_TERMS_SLUG
 from django.conf import settings
@@ -56,6 +56,7 @@ class AcceptTermsView(CreateView):
     form_class = UserTermsAndConditionsModelForm
     #template_name = "termsandconditions/tc_accept_terms.html"
     template_name = "termsandconditions/tc_accept_terms_react.html"
+    
 
     def get_initial(self):
         """Override of CreateView method, queries for which T&C to accept and catches returnTo from URL"""
@@ -73,12 +74,19 @@ class AcceptTermsView(CreateView):
             form.instance.username = self.request.user.username
         else:  #Get user out of saved pipeline from django-socialauth
             # no support for social auth right now.
-            assert False, 'TODO'
-            if 'partial_pipeline' in self.request.session:
-                user_pk = self.request.session['partial_pipeline']['kwargs']['user']['pk']
-                form.instance.user = User.objects.get(id=user_pk)
+            # assert False, 'TODO'
+            # if 'partial_pipeline' in self.request.session:
+            #     user_pk = self.request.session['partial_pipeline']['kwargs']['user']['pk']
+            #     form.instance.user = User.objects.get(id=user_pk)
+            # else:
+            if self.request.session.session_key:
+                form.instance.username = self.request.session.session_key
             else:
-                return HttpResponseRedirect('/')
+                self.request.session.save()
+                session_key = self.request.session.session_key
+                form.instance.username = session_key
+            # else:
+            #     return HttpResponseRedirect('/')
 
         store_ip_address = getattr(settings, 'TERMS_STORE_IP_ADDRESS', True)
         if store_ip_address:

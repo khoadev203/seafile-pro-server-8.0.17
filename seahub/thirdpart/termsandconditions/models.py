@@ -107,6 +107,18 @@ class TermsAndConditions(models.Model):
             return False
 
     @staticmethod
+    def agreed_to_latest_for_unregisterd(user, slug=DEFAULT_TERMS_SLUG):
+        """Checks to see if anonymous user has agreed to the latest of a particular terms and conditions"""
+
+        try:
+            UserTermsAndConditions.objects.get(username=user, terms=TermsAndConditions.get_active(slug))
+            return True
+        except UserTermsAndConditions.MultipleObjectsReturned:  # pragma: nocover
+            return True
+        except UserTermsAndConditions.DoesNotExist:
+            return False
+
+    @staticmethod
     def agreed_to_terms(user, terms=None):
         """Checks to see if a specified user has agreed to a specific terms and conditions"""
 

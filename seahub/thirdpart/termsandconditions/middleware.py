@@ -34,6 +34,10 @@ class TermsAndConditionsRedirectMiddleware(MiddlewareMixin):
             for term in TermsAndConditions.get_active_list():
                 if not TermsAndConditions.agreed_to_latest(request.user, term):
                     return redirect_to_terms_accept(current_path, term)
+        elif not request.user.is_authenticated and protected_path:
+            for term in TermsAndConditions.get_active_list():
+                if not TermsAndConditions.agreed_to_latest_for_unregisterd(request.session.session_key, term):
+                    return redirect_to_terms_accept(current_path, term)
         return None
 
 
