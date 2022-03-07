@@ -56,7 +56,7 @@ module.exports = {
   appDest: resolveApp('../media/assets/frontend'),
   appDestCSS: resolveApp('../media/assets/frontend/static/css'),
   appDestJS: resolveApp('../media/assets/frontend/static/js'),
-  appDestStatic: resolveApp('../media/assets/staticfiles_entry.json'),
+  appDestStatic: resolveApp('../media/assets/staticfiles.json'),
   appPublic: resolveApp('public'),
   appHtml: resolveApp('public/index.html'),
   appIndexJs: resolveModule(resolveApp, 'src/index'),

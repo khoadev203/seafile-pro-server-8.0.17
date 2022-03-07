@@ -212,6 +212,7 @@ function build(previousFileSizes) {
       }
 
       copyBuildFilesToMedia();
+      keepLinesFromOriginalStaticfiles();
       generateStaticJson();
       return resolve(resolveArgs);
     });
@@ -227,6 +228,18 @@ function copyPublicFolder() {
 
 function copyBuildFilesToMedia() {
   fs.copySync(paths.appBuild, paths.appDest)
+}
+
+function keepLinesFromOriginalStaticfiles() {
+  let rawdata = fs.readFileSync(paths.appDestStatic);
+  let data = JSON.parse(rawdata);
+  Object.keys(data.paths).forEach(key => {
+    console.log(key, data.paths[key]);
+    if(String(key).includes('frontend/static')){
+      delete data.paths.key
+    }
+    
+  });
 }
 
 function generateStaticJson() {
@@ -245,13 +258,13 @@ function generateStaticJson() {
   files = fs.readdirSync(paths.appDestJS);
   //listing all files using forEach
   files.forEach(function (file) {
-    let fullPath = 'frontend/static/css/' + file;
+    let fullPath = 'frontend/static/js/' + file;
     // Do whatever you want to do with the file
     // console.log(fullPath); 
     data.paths[String(fullPath)] = fullPath;
   });
   // console.log(data,'3')
-  fs.writeFile("../media/assets/staticfiles.json", JSON.stringify(data, null, 4), function (err) {
+  fs.writeFile(paths.appDestStatic, JSON.stringify(data, null, 4), function (err) {
     if (err) throw err;
     // console.log('complete');
   });
