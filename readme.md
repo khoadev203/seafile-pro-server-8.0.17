@@ -1,3 +1,3 @@
-Seafile pro edition
+Seafile pro edition v8
 
-skypeID: live:.cid.2c6d651287d6edc3
+skypeID: live:.cid.9bcb96dea1cd9fce
